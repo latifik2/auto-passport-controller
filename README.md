@@ -11,4 +11,10 @@
 Реализованные способы обнаружения приложени:
 - из конфига - done
 - в кластерах Kubernetes - done
-- через consul
+- через consul - not done
+
+Реализованна поддержка:
+- Airflow - done
+- Metabase - not done
+- Superset - not done
+- Микросервисы - not done
