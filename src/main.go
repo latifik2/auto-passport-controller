@@ -3,6 +3,8 @@ package main
 import (
 	"auto-passport/collector"
 	"auto-passport/targets"
+	"auto-passport/utils"
+	"encoding/json"
 	"fmt"
 	"log/slog"
 	"os"
@@ -13,17 +15,30 @@ func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
 	slog.SetDefault(logger)
 
-	ac := collector.AirflowCollector{}
+	config := utils.Config{}
+	config.ReadConfig()
+
+	fmt.Println(config)
+
+	clientset := collector.GetK8sClientSet()
+
+	ac := collector.AirflowCollector{
+		K8sClientSet: clientset,
+		Config:       config,
+	}
 
 	for {
 		passports := MakePassport(ac)
 
 		for _, passport := range passports {
-			fmt.Printf("Service Type: %s, Host: %s, Version: %s, Severity: %s\n",
-				passport.ServiceType,
-				passport.Infrastructure.Host,
-				passport.Version,
-				passport.Severity)
+			// fmt.Printf("Service Type: %s, Host: %s, Version: %s, Severity: %s\n",
+			// 	passport.ServiceType,
+			// 	passport.Infrastructure.Host,
+			// 	passport.Version,
+			// 	passport.Severity)
+
+			b, _ := json.Marshal(passport)
+			slog.Info(string(b))
 		}
 		time.Sleep(time.Second * 60)
 	}

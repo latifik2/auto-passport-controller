@@ -8,8 +8,9 @@ data:
   config.yaml: |
     static_targets:
       airflow:
-        - https://airflow-vtz.dns-shop.ru
+        - airflow-vtz.dns-shop.ru
       metabase:
-        - https://metabase-dev.dns-shop.ru
+        - metabase-dev.dns-shop.ru
       superset:
-        - https://superset-dev.dns-shop.ru
+        - superset-dev.dns-shop.ru
+    cluster: airflow-sph-dev
