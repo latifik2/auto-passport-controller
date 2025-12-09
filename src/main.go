@@ -30,16 +30,20 @@ func main() {
 	for {
 		passports := MakePassport(ac)
 
-		for _, passport := range passports {
-			// fmt.Printf("Service Type: %s, Host: %s, Version: %s, Severity: %s\n",
-			// 	passport.ServiceType,
-			// 	passport.Infrastructure.Host,
-			// 	passport.Version,
-			// 	passport.Severity)
+		// for _, passport := range passports {
+		// 	// fmt.Printf("Service Type: %s, Host: %s, Version: %s, Severity: %s\n",
+		// 	// 	passport.ServiceType,
+		// 	// 	passport.Infrastructure.Host,
+		// 	// 	passport.Version,
+		// 	// 	passport.Severity)
 
-			b, _ := json.Marshal(passport)
-			slog.Info(string(b))
-		}
+		// 	b, _ := json.Marshal(passport)
+		// 	slog.Info(string(b))
+		// }
+
+		b, _ := json.Marshal(passports)
+		slog.Info(string(b))
+
 		time.Sleep(time.Second * 60)
 	}
 }

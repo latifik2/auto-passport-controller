@@ -75,9 +75,6 @@ func GetK8sTargets(ac AbstractCollector, pattern string, config *utils.Config) [
 				})
 			}
 		}
-
-		// достать из пакета utlits/config.go паеременную CLUSTER, котораяв в свою очередь будет прочитана функцией ReadConfig
-
 	}
 	return dynamicTargets
 }
