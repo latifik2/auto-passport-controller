@@ -9,6 +9,8 @@ import (
 	"log/slog"
 	"os"
 	"time"
+
+	"github.com/latifik2/auto-passport-controller/types"
 )
 
 func main() {
@@ -48,11 +50,11 @@ func main() {
 	}
 }
 
-func MakePassport(ac collector.AbstractCollector) []collector.CommonPassport {
+func MakePassport(ac collector.AbstractCollector) []types.CommonPassport {
 	staticTargets := ac.GetStaticTargets()
 	dynamicTargets := ac.GetDynamicTargets()
 
-	var passports []collector.CommonPassport
+	var passports []types.CommonPassport
 
 	passports = append(passports, ac.GetMetadata(targets.ToTargets(staticTargets))...)
 	passports = append(passports, ac.GetMetadata(targets.ToTargets(dynamicTargets))...)

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log/slog"
 
+	"github.com/latifik2/auto-passport-controller/types"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -49,7 +50,7 @@ func (a AirflowCollector) GetDynamicTargets() []targets.DynamicTarget {
 
 }
 
-func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []CommonPassport {
+func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []types.CommonPassport {
 	// Implement logic to generate metadata for the given targets
 
 	v1Url := "/api/v1/version"
@@ -65,8 +66,8 @@ func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []CommonP
 
 	var airflowVersion AirflowVersion
 
-	var passports []CommonPassport
-	var infrastructure Infrastructure
+	var passports []types.CommonPassport
+	var infrastructure types.Infrastructure
 
 	var host string
 
@@ -74,13 +75,13 @@ func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []CommonP
 		switch t := afTarget.(type) {
 		case targets.StaticTarget:
 			host = t.Host
-			infrastructure = Infrastructure{
+			infrastructure = types.Infrastructure{
 				InfrastructureType: "VM",
 				Host:               host,
 			}
 		case targets.DynamicTarget:
 			host = t.Host
-			infrastructure = Infrastructure{
+			infrastructure = types.Infrastructure{
 				InfrastructureType: "K8s",
 				Cluster:            t.Cluster,
 				Namespace:          t.Namespace,
@@ -95,17 +96,17 @@ func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []CommonP
 			jsonVersion, errJson = utils.MakeApiCall(host, v2Url, b64Creds, "http")
 			if errJson != nil {
 				slog.Error(fmt.Sprintf("Error calling Airflow v2 API: %v", errJson))
-				return []CommonPassport{}
+				return []types.CommonPassport{}
 			}
 		}
 
 		err := json.Unmarshal(jsonVersion, &airflowVersion)
 		if err != nil {
 			slog.Error(fmt.Sprintf("Error parsing Airflow version response: %v", err))
-			return []CommonPassport{}
+			return []types.CommonPassport{}
 		}
 
-		passport := CommonPassport{
+		passport := types.CommonPassport{
 			ServiceType:    "Airflow",
 			Infrastructure: infrastructure,
 			Version:        airflowVersion.Version,
