@@ -15,3 +15,8 @@ type Infrastructure struct {
 
 	// TODO: добавить информацию о ресурах, которые выделены для сервиса
 }
+
+type Response struct {
+	Status  string
+	Message string
+}
