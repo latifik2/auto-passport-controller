@@ -11,18 +11,17 @@ import (
 
 func main() {
 
-	dbConf := db.DatabaseConf{}
-	dbConf.NewConn()
-
+	db := db.New()
 	router := gin.Default()
+	app := controllers.PassportController{DB: db}
 
-	router.POST("/api/v1/passports", controllers.PostPassports)
+	router.POST("/api/v1/passports", app.PostPassports)
 
-	if err := router.Run("localhost:8080"); err != nil {
+	if err := router.Run(":8080"); err != nil {
 		slog.Error(fmt.Sprintf("failed to run server: %v", err))
 	}
 
 	slog.Info("Closing database connection")
 
-	defer dbConf.GetConn().Close()
+	defer db.Pool.Close()
 }

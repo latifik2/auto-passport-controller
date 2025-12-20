@@ -14,7 +14,7 @@ import (
 
 type AirflowCollector struct {
 	K8sClientSet *kubernetes.Clientset
-	Config       utils.Config
+	Config       *utils.Config
 }
 
 type AirflowVersion struct {
@@ -46,7 +46,7 @@ func (a AirflowCollector) GetDynamicTargets() []targets.DynamicTarget {
 
 	pattern := ".*airflow.*"
 
-	return GetK8sTargets(a, pattern, &a.Config)
+	return GetK8sTargets(a, pattern, a.Config)
 
 }
 
@@ -89,11 +89,11 @@ func (a AirflowCollector) GetMetadata(airflowTargets []targets.Target) []types.C
 			}
 		}
 
-		jsonVersion, errJson = utils.MakeApiCall(host, v1Url, b64Creds, "http")
+		jsonVersion, errJson = utils.MakeServiceApiCall(host, v1Url, b64Creds, "http")
 		if errJson != nil {
 			slog.Error(fmt.Sprintf("Error calling Airflow v1 API: %v. Falling back to Airflow v2 API", errJson))
 
-			jsonVersion, errJson = utils.MakeApiCall(host, v2Url, b64Creds, "http")
+			jsonVersion, errJson = utils.MakeServiceApiCall(host, v2Url, b64Creds, "http")
 			if errJson != nil {
 				slog.Error(fmt.Sprintf("Error calling Airflow v2 API: %v", errJson))
 				return []types.CommonPassport{}

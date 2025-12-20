@@ -21,7 +21,8 @@ type Config struct {
 		Metabase []string `yaml:"metabase"`
 		Superset []string `yaml:"superset"`
 	} `yaml:"static_targets"`
-	Cluster string `yaml:"cluster"`
+	Cluster     string `yaml:"cluster"`
+	ApiEndpoint string `yaml:"api_endpoint"`
 }
 
 func (config *Config) ReadConfig() {

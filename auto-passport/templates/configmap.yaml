@@ -14,3 +14,4 @@ data:
       superset:
         - superset-dev.dns-shop.ru
     cluster: airflow-sph-dev
+    api_endpoint: http://10.10.243.53:8080

@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func MakeApiCall(host string, endpoint string, b64Creds string, scheme string) ([]byte, error) {
+func MakeServiceApiCall(host string, endpoint string, b64Creds string, scheme string) ([]byte, error) {
 
 	_ = b64Creds
 	// log.Printf("Airflow Collector initialized with credentials: %s", b64Creds)

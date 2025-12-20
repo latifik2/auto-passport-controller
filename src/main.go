@@ -4,9 +4,12 @@ import (
 	"auto-passport/collector"
 	"auto-passport/targets"
 	"auto-passport/utils"
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log/slog"
+	"net/http"
 	"os"
 	"time"
 
@@ -26,25 +29,30 @@ func main() {
 
 	ac := collector.AirflowCollector{
 		K8sClientSet: clientset,
-		Config:       config,
+		Config:       &config,
 	}
+
+	apiEndpoint := config.ApiEndpoint
+
+	httpClient := &http.Client{}
 
 	for {
 		passports := MakePassport(ac)
+		jsonb, _ := json.Marshal(passports)
 
-		// for _, passport := range passports {
-		// 	// fmt.Printf("Service Type: %s, Host: %s, Version: %s, Severity: %s\n",
-		// 	// 	passport.ServiceType,
-		// 	// 	passport.Infrastructure.Host,
-		// 	// 	passport.Version,
-		// 	// 	passport.Severity)
+		resp, err := httpClient.Post(apiEndpoint, "application/json", bytes.NewReader(jsonb))
+		if err != nil {
+			slog.Error(fmt.Sprintf("Failed to send passports to API gateway: %v", err))
+		}
 
-		// 	b, _ := json.Marshal(passport)
-		// 	slog.Info(string(b))
-		// }
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			slog.Error(fmt.Sprintf("Failed to read API gateway response body: %v", err))
+		}
 
-		b, _ := json.Marshal(passports)
-		slog.Info(string(b))
+		
+
+		resp.Body.Close()
 
 		time.Sleep(time.Second * 60)
 	}

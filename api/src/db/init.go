@@ -14,12 +14,12 @@ type DatabaseGetter interface {
 	GetConn() *pgxpool.Pool
 }
 
-type DatabaseConf struct {
-	conn *pgxpool.Pool
+type Database struct {
+	Pool *pgxpool.Pool
 }
 
-func (dc *DatabaseConf) NewConn() {
-	conn, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
+func New() *Database {
+	pool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 
 	if err != nil {
 		slog.Error(fmt.Sprintf("Unable to create connection pool: %v", err))
@@ -28,9 +28,9 @@ func (dc *DatabaseConf) NewConn() {
 
 	slog.Info("Database connection established successfully")
 
-	dc.conn = conn
+	return &Database{Pool: pool}
 }
 
-func (dc *DatabaseConf) GetConn() *pgxpool.Pool {
-	return dc.conn
+func (db *Database) GetPool() *pgxpool.Pool {
+	return db.Pool
 }
