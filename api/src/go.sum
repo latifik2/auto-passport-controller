@@ -37,6 +37,8 @@ github.com/klauspost/cpuid/v2 v2.3.0 h1:S4CRMLnYUhGeDFDqkGriYKdfoFlDnMtqTiI/sFzh
 github.com/klauspost/cpuid/v2 v2.3.0/go.mod h1:hqwkgyIinND0mEev00jJYCxPNVRVXFQeu1XKlok6oO0=
 github.com/latifik2/auto-passport-controller/types v0.0.1 h1:aSKwc8PCBh+xIF6VhWL/8VcmQgHYV25kPE8i20IvZ9o=
 github.com/latifik2/auto-passport-controller/types v0.0.1/go.mod h1:zX7pMpv1NzAlXArvHratduQIy02BeEoLSneC2UJGiAQ=
+github.com/latifik2/auto-passport-controller/types v0.0.2 h1:Tuwo3uN3yGGh/TlZOqs6436piTpBl4RIx4iaaK9qSiE=
+github.com/latifik2/auto-passport-controller/types v0.0.2/go.mod h1:zX7pMpv1NzAlXArvHratduQIy02BeEoLSneC2UJGiAQ=
 github.com/leodido/go-urn v1.4.0 h1:WT9HwE9SGECu3lg4d/dIA+jxlljEa1/ffXKmRjqdmIQ=
 github.com/leodido/go-urn v1.4.0/go.mod h1:bvxc+MVxLKB4z00jd1z+Dvzr47oO32F/QSNjSBOlFxI=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=

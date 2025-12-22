@@ -36,6 +36,8 @@ func main() {
 
 	httpClient := &http.Client{}
 
+	response := &types.Response{}
+
 	for {
 		passports := MakePassport(ac)
 		jsonb, _ := json.Marshal(passports)
@@ -45,12 +47,25 @@ func main() {
 			slog.Error(fmt.Sprintf("Failed to send passports to API gateway: %v", err))
 		}
 
+		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+			slog.Error("Error while sending passports to API", "statusCode", resp.Status)
+		}
+
 		body, err := io.ReadAll(resp.Body)
 		if err != nil {
 			slog.Error(fmt.Sprintf("Failed to read API gateway response body: %v", err))
 		}
 
-		
+		if err := json.Unmarshal(body, response); err != nil {
+			slog.Error("Failed to unmarshal response", "err", err, "body", string(body))
+		}
+
+		if response.Status == "ok" {
+			slog.Info("Successefully recieved response from API gateway", "msg", response.Message)
+		}
+		if response.Status == "fail" {
+			slog.Error("Posting passports to API gateway failed", "msg", response.Message)
+		}
 
 		resp.Body.Close()
 

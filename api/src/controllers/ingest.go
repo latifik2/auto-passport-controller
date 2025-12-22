@@ -15,14 +15,14 @@ func (p *PassportController) PostPassports(c *gin.Context) {
 
 	if err := c.BindJSON(&passportsBatch); err != nil {
 		slog.Error(fmt.Sprintf("Failed to unmarshal JSON body: %s", err))
-		c.JSON(http.StatusBadRequest, Response{Status: "fail", Message: "Failed to unmarshal JSON body"})
+		c.JSON(http.StatusBadRequest, types.Response{Status: "fail", Message: "Failed to unmarshal JSON body"})
 		return
 	}
 
 	hashBytes, err := c.GetRawData()
 	if err != nil {
 		slog.Error(fmt.Sprintf("Failed to GetRawData of JSON body: %s", err))
-		c.JSON(http.StatusBadRequest, Response{Status: "fail", Message: "Failed to GetRawData of JSON body"})
+		c.JSON(http.StatusBadRequest, types.Response{Status: "fail", Message: "Failed to GetRawData of JSON body"})
 		return
 	}
 
@@ -34,7 +34,7 @@ func (p *PassportController) PostPassports(c *gin.Context) {
 	p.DB.InsertRawJSON(hashString, hashBytes)
 
 	slog.Info(fmt.Sprintf("Successfully posted new passports: %s", passportsBatch))
-	c.JSON(http.StatusCreated, Response{Status: "ok", Message: "Successfully posted new passports"})
+	c.JSON(http.StatusCreated, types.Response{Status: "ok", Message: "Successfully posted new passports"})
 
 }
 
