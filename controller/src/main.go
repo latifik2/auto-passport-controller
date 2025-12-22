@@ -33,6 +33,7 @@ func main() {
 	}
 
 	apiEndpoint := config.ApiEndpoint
+	apiUrl := apiEndpoint + "/api/v1/passports"
 
 	httpClient := &http.Client{}
 
@@ -42,13 +43,13 @@ func main() {
 		passports := MakePassport(ac)
 		jsonb, _ := json.Marshal(passports)
 
-		resp, err := httpClient.Post(apiEndpoint, "application/json", bytes.NewReader(jsonb))
+		resp, err := httpClient.Post(apiUrl, "application/json", bytes.NewReader(jsonb))
 		if err != nil {
 			slog.Error(fmt.Sprintf("Failed to send passports to API gateway: %v", err))
 		}
 
 		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-			slog.Error("Error while sending passports to API", "statusCode", resp.Status)
+			slog.Error("Error while sending passports to API", "statusCode", resp.Status, "url", apiUrl)
 		}
 
 		body, err := io.ReadAll(resp.Body)

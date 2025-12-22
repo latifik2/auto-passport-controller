@@ -9,6 +9,7 @@ data:
     static_targets:
       airflow:
         - airflow-vtz.dns-shop.ru
+        - airflow-tpz-dev.dns-shop.ru
       metabase:
         - metabase-dev.dns-shop.ru
       superset:

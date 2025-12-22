@@ -12,12 +12,14 @@ import (
 func main() {
 
 	db := db.New()
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	app := controllers.PassportController{DB: db}
 
+	router.GET("/api/v1/passports", app.GetPassports)
 	router.POST("/api/v1/passports", app.PostPassports)
 
-	if err := router.Run(":8080"); err != nil {
+	if err := router.Run("0.0.0.0:8080"); err != nil {
 		slog.Error(fmt.Sprintf("failed to run server: %v", err))
 	}
 
