@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: static-targets-config
   labels:
-    {{- include "auto-passport.labels" . | nindent 4 }}
+    {{- include "auto-passport-controller.labels" . | nindent 4 }}
 data:
   config.yaml: |
     static_targets:

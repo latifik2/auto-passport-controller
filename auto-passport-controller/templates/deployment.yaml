@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "auto-passport.fullname" . }}
+  name: {{ include "auto-passport-controller.fullname" . }}
   labels:
-    {{- include "auto-passport.labels" . | nindent 4 }}
+    {{- include "auto-passport-controller.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "auto-passport.selectorLabels" . | nindent 6 }}
+      {{- include "auto-passport-controller.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "auto-passport.labels" . | nindent 8 }}
+        {{- include "auto-passport-controller.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "auto-passport.serviceAccountName" . }}
+      serviceAccountName: {{ include "auto-passport-controller.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

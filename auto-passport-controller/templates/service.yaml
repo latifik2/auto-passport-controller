@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "auto-passport.fullname" . }}
+  name: {{ include "auto-passport-controller.fullname" . }}
   labels:
-    {{- include "auto-passport.labels" . | nindent 4 }}
+    {{- include "auto-passport-controller.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "auto-passport.selectorLabels" . | nindent 4 }}
+    {{- include "auto-passport-controller.selectorLabels" . | nindent 4 }}
