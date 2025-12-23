@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  /* ... */
+}
+
+/* Убедитесь, что margin: 0 установлен */
+body {
+  margin: 0; 
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #111827; /* Это цвет фона по умолчанию, если контент короче экрана */
+}
